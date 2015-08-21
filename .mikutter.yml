@@ -1,5 +1,5 @@
 ---
-slug: :tweet_with_signature
+slug: :mikutter_tweet_with_signature
 depends:
   mikutter: 3.2.5
   plugin: []
