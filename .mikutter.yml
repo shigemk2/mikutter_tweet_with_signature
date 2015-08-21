@@ -1,0 +1,9 @@
+---
+slug: :tweet_with_signature
+depends:
+  mikutter: 3.2.5
+  plugin: []
+version: '1.0'
+author: 
+name: tweet with signature
+description: "ハッシュタグなど署名付きでツイートする"
