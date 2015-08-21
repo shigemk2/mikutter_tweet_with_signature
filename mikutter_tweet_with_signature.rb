@@ -2,6 +2,7 @@
 require 'twitter'
 
 Plugin.create :tweet_with_signature do
+  UserConfig[:tweet_signiture] ||= ""
 
   @clients = {}
 
@@ -37,15 +38,21 @@ Plugin.create :tweet_with_signature do
           visible: true,
           role: :postbox) do |opt|
     begin
-      message = Plugin.create(:gtk).widgetof(opt.widget).widget_post.buffer.text + " #shigemk2"
-      Thread.new {
-        Post.primary_service.update(:message => message)
-      }
-      Plugin.create(:gtk).widgetof(opt.widget).widget_post.buffer.text = ''
+      if UserConfig[:tweet_signiture]
+        message = Plugin.create(:gtk).widgetof(opt.widget).widget_post.buffer.text + UserConfig[:tweet_signiture]
+        Thread.new {
+          Post.primary_service.update(:message => message)
+        }
+        Plugin.create(:gtk).widgetof(opt.widget).widget_post.buffer.text = ''
+      end
     rescue Exception => e
       puts e.to_s
       Plugin.call(:update, nil, [Message.new(message: e.to_s, system: true)])
     end
+  end
+
+  settings('署名つきツイート') do
+    input('署名', :tweet_signiture)
   end
 end
 
